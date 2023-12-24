@@ -8,4 +8,6 @@ RUN pip install -r requirements.txt
 
 COPY ./analytics .
 
+EXPOSE 5051
+
 CMD python app.py
