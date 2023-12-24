@@ -4,11 +4,12 @@ phases:
   pre_build:
     commands:
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+      - echo $(git rev-list --count main)
   build:
     commands:
      - export MAJOR=1
      - export MINOR=0
-     - export PATCH=$(git rev-list --count HEAD)
+     - export PATCH=$(git rev-list --count main)
      - export SEMANTIC_VERSION=$MAJOR.$MINOR.$PATCH
      - docker build -t $IMAGE_REPO_NAME:$SEMANTIC_VERSION .
      - docker tag $IMAGE_REPO_NAME:$SEMANTIC_VERSION $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$SEMANTIC_VERSION
